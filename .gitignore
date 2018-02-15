@@ -1,0 +1,37 @@
+## Ant build
+
+build/
+reports/
+test-classes/
+zip/
+/tps-ear/EarContent/META-INF/application.xml
+/tps-ear/EarContent/META-INF/weblogic-application.xml
+
+/build_process/user.properties
+
+## Sonar
+sonar-project.properties
+
+## Idea
+
+*.ipr
+*.iml
+*.iws
+
+.idea/
+.shelf/
+
+## VSCode
+.vscode/
+
+## Maven
+
+target/
+
+# SVN
+.svn/
+
+# Unneeded ng files
+/tps-web/WebContent/scripts/ng/3rdpartylicenses.txt
+/tps-web/WebContent/scripts/ng/favicon.ico
+/tps-web/WebContent/scripts/ng/index.html
