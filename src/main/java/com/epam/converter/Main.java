@@ -23,24 +23,68 @@ public class Main {
     private static int globalBracketNumber = 2;
 
 
-    public static final String FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_Silog_01-06-2018.xlsx";
+    public static String FILE_NAME;
 
     public static void main(String[] args) {
+        //params
+//        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
+//        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        int bracketNumber = 3;
+//        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_LumpsumS_3_F44_Chalavan_S.sql";
+//        boolean isTwoCoefficients = false;
+//        String resultFileName = "RateGrid_LumpsumS_3_F44_Chalavan_S.sql";
+        //params
+
+        //params
+//        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
+//        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        int bracketNumber = 2;
+//        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_Bulk_F25T+P.JPL_POLL_KDE.sql";
+//        boolean isTwoCoefficients = true;
+//        String resultFileName = "RateGrid_Bulk_F25T+P.JPL_POLL_KDE.sql";
+        //params
+
+
+//        //params
+//        FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_NDThier.xlsx";
+//        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
+//        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        int bracketNumber = 2;
+//        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_Bulk_F25T+P.JPL_NDThier.sql";
+//        boolean isTwoCoefficients = true;
+//        String resultFileName = "RateGrid_Bulk_F25T+P.JPL_NDThier.sql";
+//        //params
+
+        //params
+        FILE_NAME = "tRoutes RatesGrid EU_KFR_S (4).xlsx";
+        String startDate =  "null";
+        String endDate =    "null";
+        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+        int bracketNumber = 1;
+        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_Routes RatesGrid EU_KFR_S (4).sql";
+        boolean isTwoCoefficients = false;
+        String resultFileName = "Routes RatesGrid EU_KFR_S (4).sql";
+        //params
+
+
         createLogRouteCache();
         XLSReader reader = new XLSReader();
         SQLReader sqlReader = new SQLReader();
         coeffMap = reader.readXls();
-        rateMap = sqlReader.getRateMap(prop);
+        rateMap = sqlReader.getRateMap(prop, startDate, endDate, creationDate, bracketNumber, fileName);
         StringBuilder stringBuilder = new StringBuilder();
 
-//        for(Rate[] rates: rateMap.values()) {
-//            for(int i = 0; i < rates.length; i++) {
-//                createRateWithDependentTables(stringBuilder, rates[i], i , true);
-//            }
-//        }
-
         Rate examplarRate = new Rate();
-        try{examplarRate = rateMap.values().iterator().next()[0].clone();}catch(CloneNotSupportedException ex){ex.printStackTrace();}
+
+        try {
+            examplarRate = rateMap.values().iterator().next()[0].clone();
+        } catch (CloneNotSupportedException ex) {
+            ex.printStackTrace();
+        }
+
         examplarRate.setPrev_version_id("null");
         examplarRate.setOriginal_version_id("null");
         examplarRate.setTech_version("0");
@@ -54,19 +98,19 @@ public class Main {
             if(rateMap.containsKey(logRoute)) {
                 globalBracketNumber = rateMap.get(logRoute).length;
                 for (int i = 0; i < globalBracketNumber; i++) {
-                    createRateWithDependentTables(stringBuilder, rateMap.get(logRoute)[i], i, true);
+                    createRateWithDependentTables(stringBuilder, rateMap.get(logRoute)[i], i, isTwoCoefficients);
                 }
             } else {
                 row = row + 1;
                 for (int i = 0; i < globalBracketNumber; i++) {
                     examplarRate.setLog_route_ref(prop2.getProperty(logRoute));
-                    createNewRate(stringBuilder, row , i, examplarRate ,true);
+                    createNewRate(stringBuilder, row , i, examplarRate ,isTwoCoefficients);
                 }
             }
         }
 
 
-        try(PrintWriter writer = new PrintWriter("result.sql", "UTF-8")) {
+        try(PrintWriter writer = new PrintWriter(resultFileName, "UTF-8")) {
             writer.println(stringBuilder.toString());
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException ex) {
@@ -100,11 +144,6 @@ public class Main {
 
             //load a properties file from class path, inside static method
             prop2.load(input2);
-
-            //get the property value and print it out
-//            System.out.println(prop.getProperty("database"));
-//            System.out.println(prop.getProperty("dbuser"));
-//            System.out.println(prop.getProperty("dbpassword"));
 
         } catch (IOException ex) {
             ex.printStackTrace();
