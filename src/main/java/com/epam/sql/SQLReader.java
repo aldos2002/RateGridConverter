@@ -17,33 +17,36 @@ import java.util.stream.Stream;
  */
 public class SQLReader {
     private static Map<String, Rate[]> rateMap = new HashMap<>();
-    private static int bracketNumber = 0;
+    private static int bracketNumber;
     private static Properties prop = new Properties();
-
-    public void populateRateMap(String fileName, int bracketNumber) {
-        //read file into stream, try-with-resources
-        this.bracketNumber = bracketNumber;
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            stream.forEach(str -> parseSqlStr(str));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static boolean newBizVersion;
 
     public Map<String, Rate[]> getRateMap(Properties prop,
                                           String startDate,
                                           String endDate,
                                           String creationDate,
                                           int bracketNumber,
-                                          String fileName) {
-        this.prop = prop;
+                                          String fileName,
+                                          boolean newBizVersion) {
+        SQLReader.prop = prop;
         SQLReader sqlReader = new SQLReader();
         sqlReader.populateRateMap(fileName, bracketNumber);
         setNewValidationDates(startDate, endDate, creationDate);
+        SQLReader.newBizVersion = newBizVersion;
         return rateMap;
     }
 
-    public void parseSqlStr(String str) {
+    private void populateRateMap(String fileName, int bracketNumber) {
+        //read file into stream, try-with-resources
+        SQLReader.bracketNumber = bracketNumber;
+        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+            stream.forEach(this::parseSqlStr);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseSqlStr(String str) {
         String[] sqlExpressionParts = str.split("values");
         String valuesPart = sqlExpressionParts[1];
         valuesPart = valuesPart.replaceFirst("\\(", "");
@@ -117,19 +120,22 @@ public class SQLReader {
         rateMap.get(logRoute);
     }
 
-    public static void setNewValidationDates(String startDate, String endDate, String creationDate) {
+    private void setNewValidationDates(String startDate, String endDate, String creationDate) {
         for (Rate[] rates : rateMap.values()) {
             for (int i = 0; i < bracketNumber; i++) {
                 Rate rate = rates[i];
                 rate.setStart_date(startDate);
                 rate.setEnd_date(endDate);
-                rate.setBiz_version(String.valueOf(Integer.parseInt(rate.getBiz_version()) + 1));
-//                rate.setTech_version(String.valueOf(Integer.parseInt(rate.getTech_version())+1));
-//                rate.setRecord_version(String.valueOf(Integer.parseInt(rate.getRecord_version())+1));
-                rate.setRecord_version("0");
+                if (newBizVersion) {
+                    rate.setBiz_version(String.valueOf(Integer.parseInt(rate.getBiz_version()) + 1));
+                    rate.setTech_version("0");
+                    rate.setRecord_version("0");
+                } else {
+                    rate.setTech_version(String.valueOf(Integer.parseInt(rate.getTech_version()) + 1));
+                    rate.setRecord_version(String.valueOf(Integer.parseInt(rate.getRecord_version()) + 1));
+                }
                 rate.setPrev_version_id(rate.getOid());
                 rate.setOriginal_version_id(rate.getOid());
-//                rate.setOriginal_version_id("rId");
                 rate.setOid("rId");
                 rate.setGrid_ref("rgId");
                 rate.setCreation_date(creationDate);

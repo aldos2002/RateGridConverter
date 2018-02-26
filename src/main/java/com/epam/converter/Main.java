@@ -19,11 +19,17 @@ public class Main {
     private static Properties prop = new Properties();
     private static Properties prop2 = new Properties();
     public static String FILE_NAME;
+    private static String contractId;
+    private static String unitRef;
+    private static String dimensionRef;
+    private static String cou1;
+    private static String cou2;
 
     public static void main(String[] args) {
         //params: new biz version '*SILOG_DE_56 / TankPowder - F40 / KDE - EUR - LC / 2018 02 / S'
         //FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_Silog_01-06-2018.xlsx";
         // int maxExistingRow = 66;
+//        boolean newBizVersion = true;
 //        String startDate =  "to_date('01-JUN-18 00:00','DD-MON-RR HH24:MI')";
 //        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
 //        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -31,48 +37,72 @@ public class Main {
 //        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_Bulk_F25T+P.JPL_Silog_01-06-2018.sql";
 //        boolean isTwoCoefficients = true;
 //        String resultFileName = "RateGrid_Bulk_F25T+P.JPL_Silog_01-06-2018.sql";
+        //contractId = "251135";
+        //unitRef = "33";
+       //dimensionRef ="360";
+         //       cou1 = "8355";
+//        cou2 ="8350";
         //params
 
         //params: new tech version '*CHALA_FR_26 / Tautliner - F44 / KFR - EUR - LC / 2016 10 / S'
-        //FILE_NAME = "tRateGrid_LumpsumS_3_F44_Chalavan_S.sql.xlsx";
-        // int maxExistingRow = 86;
-//        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
-//        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
-//        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        FILE_NAME = "tRateGrid_LumpsumS_3_F44_Chalavan_S.xlsx";
+//        int maxExistingRow = 86;
+//        boolean newBizVersion = false;
+//        String startDate = "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        String endDate = "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
+//        String creationDate = "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        int bracketNumber = 3;
 //        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_LumpsumS_3_F44_Chalavan_S.sql";
 //        boolean isTwoCoefficients = false;
 //        String resultFileName = "RateGrid_LumpsumS_3_F44_Chalavan_S.sql";
+//        contractId = null;
+//        unitRef = "33";
+//        dimensionRef = "360";
+//        cou1 = "8362";
+//        cou2 = "8350";
         //params
 
         //params: new tech version '*POLL_AT_48 / TankPowder - F40 / KDE - EUR - EU / 2018 02 / S'
-        //FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_POLL_KDE.xlsx";
-        // int maxExistingRow = 30;
-//        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
-//        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
-//        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_POLL_KDE.xlsx";
+//        int maxExistingRow = 30;
+//        boolean newBizVersion = false;
+//        String startDate = "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        String endDate = "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
+//        String creationDate = "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        int bracketNumber = 2;
 //        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_Bulk_F25T+P.JPL_POLL_KDE.sql";
 //        boolean isTwoCoefficients = true;
 //        String resultFileName = "RateGrid_Bulk_F25T+P.JPL_POLL_KDE.sql";
+//        contractId = null;
+//        unitRef = "33";
+//        dimensionRef = "360";
+//        cou1 = "8355";
+//        cou2 = "8350";
         //params
 
 
-//        //params: new tech version '*NDTHI_DE_46 / TankPowder - F40 / KDE - EUR - LC / 2018 02 / S'
+        //params: new tech version '*NDTHI_DE_46 / TankPowder - F40 / KDE - EUR - LC / 2018 02 / S'
 //        FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_NDThier.xlsx";
-        // int maxExistingRow = 23;
-//        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
-//        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
-//        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        int maxExistingRow = 23;
+//        boolean newBizVersion = false;
+//        String startDate = "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        String endDate = "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
+//        String creationDate = "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        int bracketNumber = 2;
 //        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_Bulk_F25T+P.JPL_NDThier.sql";
 //        boolean isTwoCoefficients = true;
 //        String resultFileName = "RateGrid_Bulk_F25T+P.JPL_NDThier.sql";
-//        //params
+//        contractId = null;
+//        unitRef = "33";
+//        dimensionRef = "360";
+//        cou1 = "8355";
+//        cou2 = "8350";
+        //params
 
-        //params: new biz version
+        //params: new biz version !!! CREATE ROUTE / Add contracts to all rates
         FILE_NAME = "tRoutes RatesGrid EU_KFR_S (4).xlsx";
         int maxExistingRow = 97;
+        boolean newBizVersion = false;
         String startDate = "null";
         String endDate = "null";
         String creationDate = "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -80,6 +110,10 @@ public class Main {
         String fileName = "e://converter/RateGridConverter/src/main/resources/sql_Routes RatesGrid EU_KFR_S (4).sql";
         boolean isTwoCoefficients = false;
         String resultFileName = "Routes RatesGrid EU_KFR_S (4).sql";
+        contractId = "173118";
+        unitRef = "2";
+        dimensionRef = "238";
+        cou1 = "8350";
         //params
 
 
@@ -87,7 +121,7 @@ public class Main {
         XLSReader reader = new XLSReader();
         SQLReader sqlReader = new SQLReader();
         coeffMap = reader.readXls();
-        Map<String, Rate[]> rateMap = sqlReader.getRateMap(prop, startDate, endDate, creationDate, bracketNumber, fileName);
+        Map<String, Rate[]> rateMap = sqlReader.getRateMap(prop, startDate, endDate, creationDate, bracketNumber, fileName, newBizVersion);
         int globalBracketNumber = bracketNumber;
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -182,13 +216,12 @@ public class Main {
         stringBuilder.append(rate.toString());
         stringBuilder.append("\n");
         stringBuilder.append(
-                "Insert into MEASURE_VALUE (OID,UNIT_REF,DIMENSION_REF) values (rMsId,33,360);\n" +
+                "Insert into MEASURE_VALUE (OID,UNIT_REF,DIMENSION_REF) values (rMsId,"+unitRef+","+dimensionRef+");\n" +
                         "Insert into RATE_MEASVALUE (RATE_REF,MEASURE_VALUE_REF) values (rId,rMsId);\n" +
-                        "Insert into RATE_CONTRACT (CONTRACT_REF,RATE_REF) values (CONTRACTID,rId);\n" +
+                        (contractId == null ? "" : ("Insert into RATE_CONTRACT (CONTRACT_REF,RATE_REF) values ("+contractId+",rId);\n")) +
                         "rCou := rCou + 1;\n" +
-                        "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8355,rCou,'IS_EQUAL');\n" +
-                        "rCou := rCou + 1;\n" +
-                        "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8350,rCou,'IS_EQUAL');\n" +
+                        "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,"+cou1+",rCou,'IS_EQUAL');\n" +
+                        (cou2 == null ? "" : ("rCou := rCou + 1;\n" + "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,"+cou2+",rCou,'IS_EQUAL');\n")) +
                         "Insert into RATE_BRACKET (RATE_REF,BRACKET_REF) values (rId,br" + bracketNumber + ");\n"
         );
 /////CHange
@@ -209,19 +242,17 @@ public class Main {
                         "coeff := coeff + 1;\n" +
                         "rMsId := rMsId + 1;");
         stringBuilder.append("\n");
-        String origCode = rate.getCode();
         int columnNum = bracketNumber + 1;
         rate.setCode("'" + rate.getDescription().replaceAll("'", "") + "_[" + rowNum + "][" + columnNum + "]" + "'");
         stringBuilder.append(rate.toString());
         stringBuilder.append("\n");
-//        rate.setCode(origCode);
         stringBuilder.append(
-                "Insert into MEASURE_VALUE (OID,UNIT_REF,DIMENSION_REF) values (rMsId,33,360);\n" +
+                "Insert into MEASURE_VALUE (OID,UNIT_REF,DIMENSION_REF) values (rMsId,"+unitRef+","+dimensionRef+");\n" +
                         "Insert into RATE_MEASVALUE (RATE_REF,MEASURE_VALUE_REF) values (rId,rMsId);\n" +
+                        (contractId == null ? "" : ("Insert into RATE_CONTRACT (CONTRACT_REF,RATE_REF) values ("+contractId+",rId);\n")) +
                         "rCou := rCou + 1;\n" +
-                        "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8355,rCou,'IS_EQUAL');\n" +
-                        "rCou := rCou + 1;\n" +
-                        "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8350,rCou,'IS_EQUAL');\n" +
+                        "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,"+cou1+",rCou,'IS_EQUAL');\n" +
+                        (cou2 == null ? "" : ("rCou := rCou + 1;\n" + "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,"+cou2+",rCou,'IS_EQUAL');\n")) +
                         "Insert into RATE_BRACKET (RATE_REF,BRACKET_REF) values (rId,br" + bracketNumber + ");\n"
         );
 /////CHange
