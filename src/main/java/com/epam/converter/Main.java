@@ -21,8 +21,21 @@ public class Main {
     public static String FILE_NAME;
 
     public static void main(String[] args) {
-        //params: new tech version
-        // int maxExistingRow = 47;
+        //params: new biz version '*SILOG_DE_56 / TankPowder - F40 / KDE - EUR - LC / 2018 02 / S'
+        //FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_Silog_01-06-2018.xlsx";
+        // int maxExistingRow = 66;
+//        String startDate =  "to_date('01-JUN-18 00:00','DD-MON-RR HH24:MI')";
+//        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
+//        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+//        int bracketNumber = 2;
+//        String fileName = "e://converter/RateGridConverter/src/main/resources/sql_RateGrid_Bulk_F25T+P.JPL_Silog_01-06-2018.sql";
+//        boolean isTwoCoefficients = true;
+//        String resultFileName = "RateGrid_Bulk_F25T+P.JPL_Silog_01-06-2018.sql";
+        //params
+
+        //params: new tech version '*CHALA_FR_26 / Tautliner - F44 / KFR - EUR - LC / 2016 10 / S'
+        //FILE_NAME = "tRateGrid_LumpsumS_3_F44_Chalavan_S.sql.xlsx";
+        // int maxExistingRow = 86;
 //        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
 //        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -32,8 +45,9 @@ public class Main {
 //        String resultFileName = "RateGrid_LumpsumS_3_F44_Chalavan_S.sql";
         //params
 
-        //params: new tech version
-        // int maxExistingRow = 47;
+        //params: new tech version '*POLL_AT_48 / TankPowder - F40 / KDE - EUR - EU / 2018 02 / S'
+        //FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_POLL_KDE.xlsx";
+        // int maxExistingRow = 30;
 //        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
 //        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -44,9 +58,9 @@ public class Main {
         //params
 
 
-//        //params: new tech version
+//        //params: new tech version '*NDTHI_DE_46 / TankPowder - F40 / KDE - EUR - LC / 2018 02 / S'
 //        FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_NDThier.xlsx";
-        // int maxExistingRow = 47;
+        // int maxExistingRow = 23;
 //        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
 //        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -58,7 +72,7 @@ public class Main {
 
         //params: new biz version
         FILE_NAME = "tRoutes RatesGrid EU_KFR_S (4).xlsx";
-        int maxExistingRow = 47;
+        int maxExistingRow = 97;
         String startDate = "null";
         String endDate = "null";
         String creationDate = "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
