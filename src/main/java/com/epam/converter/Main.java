@@ -16,17 +16,13 @@ import java.util.Properties;
 
 public class Main {
     private static Map<String, double[]> coeffMap = new HashMap<>();
-    private static Map<String,Rate[]> rateMap = new HashMap<>();
     private static Properties prop = new Properties();
     private static Properties prop2 = new Properties();
-    private static int MAX_EXISTING_ROW = 47;
-    private static int globalBracketNumber = 2;
-
-
     public static String FILE_NAME;
 
     public static void main(String[] args) {
-        //params
+        //params: new tech version
+        // int maxExistingRow = 47;
 //        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
 //        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -36,7 +32,8 @@ public class Main {
 //        String resultFileName = "RateGrid_LumpsumS_3_F44_Chalavan_S.sql";
         //params
 
-        //params
+        //params: new tech version
+        // int maxExistingRow = 47;
 //        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
 //        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -47,8 +44,9 @@ public class Main {
         //params
 
 
-//        //params
+//        //params: new tech version
 //        FILE_NAME = "tRateGrid_Bulk_F25T+P.JPL_NDThier.xlsx";
+        // int maxExistingRow = 47;
 //        String startDate =  "to_date('01-FEB-18 00:00','DD-MON-RR HH24:MI')";
 //        String endDate =    "to_date('31-DEC-99 23:59','DD-MON-RR HH24:MI')";
 //        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
@@ -58,11 +56,12 @@ public class Main {
 //        String resultFileName = "RateGrid_Bulk_F25T+P.JPL_NDThier.sql";
 //        //params
 
-        //params
+        //params: new biz version
         FILE_NAME = "tRoutes RatesGrid EU_KFR_S (4).xlsx";
-        String startDate =  "null";
-        String endDate =    "null";
-        String creationDate =    "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
+        int maxExistingRow = 47;
+        String startDate = "null";
+        String endDate = "null";
+        String creationDate = "to_date('26-FEB-18 00:00','DD-MON-RR HH24:MI')";
         int bracketNumber = 1;
         String fileName = "e://converter/RateGridConverter/src/main/resources/sql_Routes RatesGrid EU_KFR_S (4).sql";
         boolean isTwoCoefficients = false;
@@ -74,7 +73,8 @@ public class Main {
         XLSReader reader = new XLSReader();
         SQLReader sqlReader = new SQLReader();
         coeffMap = reader.readXls();
-        rateMap = sqlReader.getRateMap(prop, startDate, endDate, creationDate, bracketNumber, fileName);
+        Map<String, Rate[]> rateMap = sqlReader.getRateMap(prop, startDate, endDate, creationDate, bracketNumber, fileName);
+        int globalBracketNumber = bracketNumber;
         StringBuilder stringBuilder = new StringBuilder();
 
         Rate examplarRate = new Rate();
@@ -91,11 +91,10 @@ public class Main {
         examplarRate.setRecord_version("0");
 
 
-        int row = MAX_EXISTING_ROW;
+        int row = maxExistingRow;
 
-        for(String logRoute :coeffMap.keySet()) {
-            double[] coeffValues = coeffMap.get(logRoute);
-            if(rateMap.containsKey(logRoute)) {
+        for (String logRoute : coeffMap.keySet()) {
+            if (rateMap.containsKey(logRoute)) {
                 globalBracketNumber = rateMap.get(logRoute).length;
                 for (int i = 0; i < globalBracketNumber; i++) {
                     createRateWithDependentTables(stringBuilder, rateMap.get(logRoute)[i], i, isTwoCoefficients);
@@ -104,13 +103,13 @@ public class Main {
                 row = row + 1;
                 for (int i = 0; i < globalBracketNumber; i++) {
                     examplarRate.setLog_route_ref(prop2.getProperty(logRoute));
-                    createNewRate(stringBuilder, row , i, examplarRate ,isTwoCoefficients);
+                    createNewRate(stringBuilder, row, i, examplarRate, isTwoCoefficients);
                 }
             }
         }
 
 
-        try(PrintWriter writer = new PrintWriter(resultFileName, "UTF-8")) {
+        try (PrintWriter writer = new PrintWriter(resultFileName, "UTF-8")) {
             writer.println(stringBuilder.toString());
             writer.close();
         } catch (FileNotFoundException | UnsupportedEncodingException ex) {
@@ -126,7 +125,7 @@ public class Main {
 
             String filename = "logRouteCache.properties";
             input = Main.class.getClassLoader().getResourceAsStream(filename);
-            if(input==null){
+            if (input == null) {
                 System.out.println("Sorry, unable to find " + filename);
                 return;
             }
@@ -137,7 +136,7 @@ public class Main {
 
             String filename2 = "inverseLogRouteCache.properties";
             input2 = Main.class.getClassLoader().getResourceAsStream(filename2);
-            if(input2==null){
+            if (input2 == null) {
                 System.out.println("Sorry, unable to find " + filename2);
                 return;
             }
@@ -147,8 +146,8 @@ public class Main {
 
         } catch (IOException ex) {
             ex.printStackTrace();
-        } finally{
-            if(input!=null){
+        } finally {
+            if (input != null) {
                 try {
                     input.close();
                     input2.close();
@@ -160,7 +159,7 @@ public class Main {
     }
 
     ///CONDOFUSE CAN VARY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public static void createRateWithDependentTables(StringBuilder stringBuilder, Rate rate, int bracketNumber, boolean twoCoeffs){
+    public static void createRateWithDependentTables(StringBuilder stringBuilder, Rate rate, int bracketNumber, boolean twoCoeffs) {
         stringBuilder.append(
                 "rId := rId + 1;\n" +
                         "coeff := coeff + 1;\n" +
@@ -176,32 +175,15 @@ public class Main {
                         "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8355,rCou,'IS_EQUAL');\n" +
                         "rCou := rCou + 1;\n" +
                         "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8350,rCou,'IS_EQUAL');\n" +
-                        "Insert into RATE_BRACKET (RATE_REF,BRACKET_REF) values (rId,br"+bracketNumber+");\n"
+                        "Insert into RATE_BRACKET (RATE_REF,BRACKET_REF) values (rId,br" + bracketNumber + ");\n"
         );
 /////CHange
         String logRoute = prop.getProperty(rate.getLog_route_ref());
-        if(!twoCoeffs) {
-            double coeffValue = coeffMap.get(logRoute)[bracketNumber];
-            stringBuilder.append("Insert into COEFFICIENT_VALUE (OID,LABEL,RATE_REF,RATE_TEMPLATE_REF,VALUE,SMC3_ENABLED,SMC3_TARIFF_NAME,SMC3_EFFECTIVE_DATE) " +
-                    "values (SEQ_COVA_COEFFICIENT_VALUE_OID.nextval,'C0',rId,null," + coeffValue + ",0,null,null);");
-            stringBuilder.append("\n");
-        } else {
-            double coeffValue = coeffMap.get(logRoute)[bracketNumber*2];
-            stringBuilder.append("Insert into COEFFICIENT_VALUE (OID,LABEL,RATE_REF,RATE_TEMPLATE_REF,VALUE,SMC3_ENABLED,SMC3_TARIFF_NAME,SMC3_EFFECTIVE_DATE) " +
-                    "values (coeff,'C0',rId,null," + coeffValue + ",0,null,null);");
-            stringBuilder.append("\n");
-            stringBuilder.append("coeff := coeff + 1;");
-            stringBuilder.append("\n");
-            double coeffValue2 = coeffMap.get(logRoute)[bracketNumber*2+1];
-            stringBuilder.append("Insert into COEFFICIENT_VALUE (OID,LABEL,RATE_REF,RATE_TEMPLATE_REF,VALUE,SMC3_ENABLED,SMC3_TARIFF_NAME,SMC3_EFFECTIVE_DATE) " +
-                    "values (coeff,'C1',rId,null," + coeffValue2 + ",0,null,null);");
-            stringBuilder.append("\n");
-
-        }
+        createCoefficients(bracketNumber, stringBuilder, twoCoeffs, logRoute);
         stringBuilder.append("\n");
     }
 
-    public static void createNewRate(StringBuilder stringBuilder,int rowNum, int bracketNumber, Rate rate2, boolean twoCoeffs) {
+    private static void createNewRate(StringBuilder stringBuilder, int rowNum, int bracketNumber, Rate rate2, boolean twoCoeffs) {
         Rate rate = new Rate();
         try {
             rate = rate2.clone();
@@ -210,12 +192,12 @@ public class Main {
         }
         stringBuilder.append(
                 "rId := rId + 1;\n" +
-                "coeff := coeff + 1;\n" +
-                "rMsId := rMsId + 1;");
+                        "coeff := coeff + 1;\n" +
+                        "rMsId := rMsId + 1;");
         stringBuilder.append("\n");
         String origCode = rate.getCode();
         int columnNum = bracketNumber + 1;
-        rate.setCode("'"+rate.getDescription().replaceAll("'","")+"_["+rowNum+"]["+columnNum+"]" + "'");
+        rate.setCode("'" + rate.getDescription().replaceAll("'", "") + "_[" + rowNum + "][" + columnNum + "]" + "'");
         stringBuilder.append(rate.toString());
         stringBuilder.append("\n");
 //        rate.setCode(origCode);
@@ -226,30 +208,33 @@ public class Main {
                         "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8355,rCou,'IS_EQUAL');\n" +
                         "rCou := rCou + 1;\n" +
                         "Insert into RATE_CONDOFUSE (RATE_REF,COND_OF_USE_REF,OID,OPERATOR) values (rId,8350,rCou,'IS_EQUAL');\n" +
-                        "Insert into RATE_BRACKET (RATE_REF,BRACKET_REF) values (rId,br"+bracketNumber+");\n"
+                        "Insert into RATE_BRACKET (RATE_REF,BRACKET_REF) values (rId,br" + bracketNumber + ");\n"
         );
 /////CHange
         String logRoute = prop.getProperty(rate.getLog_route_ref());
-        if(!twoCoeffs) {
+        createCoefficients(bracketNumber, stringBuilder, twoCoeffs, logRoute);
+        stringBuilder.append("\n");
+        stringBuilder.append("\n");
+    }
+
+    private static void createCoefficients(int bracketNumber, StringBuilder stringBuilder, boolean twoCoeffs, String logRoute) {
+        if (!twoCoeffs) {
             double coeffValue = coeffMap.get(logRoute)[bracketNumber];
             stringBuilder.append("Insert into COEFFICIENT_VALUE (OID,LABEL,RATE_REF,RATE_TEMPLATE_REF,VALUE,SMC3_ENABLED,SMC3_TARIFF_NAME,SMC3_EFFECTIVE_DATE) " +
-                    "values (coeff.nextval,'C0',rId,null," + coeffValue + ",0,null,null);");
+                    "values (coeff,'C0',rId,null," + coeffValue + ",0,null,null);");
             stringBuilder.append("\n");
         } else {
-            double coeffValue = coeffMap.get(logRoute)[bracketNumber*2];
+            double coeffValue = coeffMap.get(logRoute)[bracketNumber * 2];
             stringBuilder.append("Insert into COEFFICIENT_VALUE (OID,LABEL,RATE_REF,RATE_TEMPLATE_REF,VALUE,SMC3_ENABLED,SMC3_TARIFF_NAME,SMC3_EFFECTIVE_DATE) " +
                     "values (coeff,'C0',rId,null," + coeffValue + ",0,null,null);");
             stringBuilder.append("\n");
             stringBuilder.append("coeff := coeff + 1;");
             stringBuilder.append("\n");
-            double coeffValue2 = coeffMap.get(logRoute)[bracketNumber*2+1];
+            double coeffValue2 = coeffMap.get(logRoute)[bracketNumber * 2 + 1];
             stringBuilder.append("Insert into COEFFICIENT_VALUE (OID,LABEL,RATE_REF,RATE_TEMPLATE_REF,VALUE,SMC3_ENABLED,SMC3_TARIFF_NAME,SMC3_EFFECTIVE_DATE) " +
                     "values (coeff,'C1',rId,null," + coeffValue2 + ",0,null,null);");
             stringBuilder.append("\n");
-
         }
-        stringBuilder.append("\n");
-        stringBuilder.append("\n");
     }
 }
 

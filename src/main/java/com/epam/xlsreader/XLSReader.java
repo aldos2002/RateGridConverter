@@ -22,7 +22,6 @@ import java.util.Map;
  * on 1/26/2018.
  */
 public class XLSReader {
-    private static int numberOfBrackets = 0;
     private static Map<String, double[]> coeffMap = new HashMap<>();
     private int firstBracketCellNumber;
     private int maxCellNumber;
@@ -49,14 +48,13 @@ public class XLSReader {
                 while (cellIterator.hasNext()) {
                     Cell currentCell = cellIterator.next();
 
-                    if(cellNumber == 0) {
+                    if (cellNumber == 0) {
                         logRoute = currentCell.getStringCellValue();
-                        if(!logRoute.isEmpty()) {
+                        if (!logRoute.isEmpty()) {
                             double[] coeffs = new double[maxCellNumber - firstBracketCellNumber + 1];
                             coeffMap.put(logRoute, coeffs);
                         }
                     }
-
 
 
                     //getCellTypeEnum shown as deprecated for version 3.15
@@ -68,8 +66,8 @@ public class XLSReader {
 //                    } else
 
                     if (currentCell.getCellTypeEnum() == CellType.NUMERIC) {
-                            coeffMap.get(logRoute)[numericCellNumber] = currentCell.getNumericCellValue();
-                            numericCellNumber++;
+                        coeffMap.get(logRoute)[numericCellNumber] = currentCell.getNumericCellValue();
+                        numericCellNumber++;
                     }
 
                     cellNumber++;
@@ -77,9 +75,7 @@ public class XLSReader {
                 System.out.println();
 
             }
-        } catch (FileNotFoundException | URISyntaxException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }
 
@@ -91,13 +87,10 @@ public class XLSReader {
         boolean firstBracketFound = false;
         int cellNumber = 0;
         Row headerRow = iterator.next();
-        Iterator<Cell> cellIterator = headerRow.iterator();
 
-        while (cellIterator.hasNext()) {
-
-            Cell currentCell = cellIterator.next();
+        for (Cell currentCell : headerRow) {
             if (currentCell.getCellTypeEnum() == CellType.STRING) {
-                if(!firstBracketFound && currentCell.getStringCellValue().startsWith("[")){
+                if (!firstBracketFound && currentCell.getStringCellValue().startsWith("[")) {
                     firstBracketCellNumber = cellNumber;
                     firstBracketFound = true;
                 }
